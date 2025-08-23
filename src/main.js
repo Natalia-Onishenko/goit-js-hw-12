@@ -1,16 +1,10 @@
 import { getImagesByQuery } from "./js/pixabay-api.js";
-import {
-  createGallery,
-  clearGallery,
-  showLoader,
-  hideLoader,
-  showLoadMoreButton,
-  hideLoadMoreButton,
-} from "./js/render-functions.js";
-import Notiflix from "notiflix";
+import { createGallery, clearGallery, showLoadMoreButton, hideLoadMoreButton, showLoader, hideLoader } from "./js/render-functions.js";
 
-const form = document.querySelector("#search-form");
-const loadMoreBtn = document.querySelector("#load-more");
+const form = document.querySelector(".form");
+const input = document.querySelector(".search-input");
+const loadMoreBtn = document.querySelector(".load-more");
+const gallery = document.querySelector(".gallery");
 
 let currentQuery = "";
 let currentPage = 1;
@@ -23,11 +17,8 @@ loadMoreBtn.addEventListener("click", onLoadMore);
 
 async function onSearch(e) {
   e.preventDefault();
-  currentQuery = e.target.elements["search-input"].value.trim();
-  if (!currentQuery) {
-    Notiflix.Notify.info("Please enter a search query.");
-    return;
-  }
+  currentQuery = input.value.trim();
+  if (!currentQuery) return;
 
   clearGallery();
   hideLoadMoreButton();
@@ -45,13 +36,22 @@ async function onLoadMore() {
 async function fetchImages() {
   if (isLoading) return;
   isLoading = true;
+
   showLoader();
+  loadMoreBtn.disabled = true;
 
   try {
     const data = await getImagesByQuery(currentQuery, currentPage);
+    console.log(data); 
 
     if (!data || data.hits.length === 0) {
-      Notiflix.Notify.failure("Sorry, no images found.");
+      if (currentPage === 1) {
+        clearGallery();
+        gallery.insertAdjacentHTML(
+          "beforeend",
+          `<li class="gallery-item no-results">Нічого не знайдено</li>`
+        );
+      }
       return;
     }
 
@@ -63,27 +63,21 @@ async function fetchImages() {
       showLoadMoreButton();
     } else {
       hideLoadMoreButton();
-      if (currentPage > 1) {
-        Notiflix.Notify.info("You've reached the end of results.");
-      }
     }
 
     smoothScroll();
   } catch (error) {
     console.error(error);
-    Notiflix.Notify.failure("Error loading images. Try again later.");
   } finally {
     hideLoader();
+    loadMoreBtn.disabled = false;
     isLoading = false;
   }
 }
 
 function smoothScroll() {
-  const gallery = document.querySelector(".gallery");
   if (!gallery.firstElementChild) return;
-
   const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
-
   window.scrollBy({
     top: cardHeight * 2,
     behavior: "smooth",

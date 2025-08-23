@@ -2,8 +2,8 @@ import SimpleLightbox from "simplelightbox";
 import "simplelightbox/dist/simple-lightbox.min.css";
 
 const gallery = document.querySelector(".gallery");
-const loader = document.querySelector("#loader");
-const loadMoreBtn = document.querySelector("#load-more");
+const loader = document.querySelector(".loader");
+const loadMoreBtn = document.querySelector(".load-more");
 
 let lightbox;
 
@@ -15,6 +15,7 @@ export function createGallery(images) {
         <a href="${img.largeImageURL}">
           <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
         </a>
+        <p class="photo-caption">${img.tags}</p>
       </li>`
     )
     .join("");

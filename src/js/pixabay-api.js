@@ -12,7 +12,7 @@ export async function getImagesByQuery(query, page = 1) {
         image_type: "photo",
         orientation: "horizontal",
         safesearch: true,
-        per_page: 40,
+        per_page: 15,
         page: page,
       },
     });
