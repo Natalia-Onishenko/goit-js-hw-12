@@ -36,11 +36,11 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  loader.hidden = false;
+  loader.style.display = "inline-block";
 }
 
 export function hideLoader() {
-  loader.hidden = true;
+  loader.style.display = "none";
 }
 
 export function showLoadMoreButton() {

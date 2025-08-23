@@ -42,7 +42,6 @@ async function fetchImages() {
 
   try {
     const data = await getImagesByQuery(currentQuery, currentPage);
-    console.log(data); 
 
     if (!data || data.hits.length === 0) {
       if (currentPage === 1) {
