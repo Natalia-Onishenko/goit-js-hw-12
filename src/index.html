@@ -8,9 +8,10 @@
   </head>
   <body>
     <header>
-      <form class="form">
+      <form id="search-form" class="form">
         <input
           type="text"
+          name="searchQuery"
           class="search-input"
           placeholder="Image search..."
           required
@@ -24,7 +25,7 @@
 
       <div class="controls">
         <button class="load-more" hidden>Load More</button>
-        <span class="loader">Loading…</span>
+        <span class="loader" hidden>Loading…</span>
       </div>
     </main>
 
