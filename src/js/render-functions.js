@@ -68,12 +68,3 @@ export function hideLoadMoreBtn() {
   loadMoreBtn.hidden = true;
 }
 
-export function smoothScroll() {
-  if (!gallery.firstElementChild) return;
-  const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
-
-  window.scrollBy({
-    top: cardHeight * 2,
-    behavior: 'smooth',
-  });
-}
