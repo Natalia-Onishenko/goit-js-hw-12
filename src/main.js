@@ -19,8 +19,8 @@ let query = '';
 let page = 1;
 let totalHits = 0;
 
-
 hideLoader();
+hideLoadMoreBtn();
 
 form.addEventListener('submit', onSearch);
 loadMoreBtn.addEventListener('click', onLoadMore);
@@ -29,10 +29,6 @@ async function onSearch(e) {
   e.preventDefault();
 
   query = e.currentTarget.searchQuery.value.trim();
-  page = 1;
-  clearGallery();
-  hideLoadMoreBtn();
-
   if (!query) {
     iziToast.warning({
       title: 'Увага',
@@ -41,6 +37,14 @@ async function onSearch(e) {
     });
     return;
   }
+
+  page = 1;
+  totalHits = 0;
+  clearGallery();
+  hideLoadMoreBtn();
+
+  // очищаємо інпут після сабміту
+  e.currentTarget.searchQuery.value = '';
 
   try {
     showLoader();
