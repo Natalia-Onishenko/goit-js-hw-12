@@ -7,36 +7,25 @@ const loadMoreBtn = document.querySelector('.load-more');
 
 let lightbox;
 
-export function createGalleryItem(image) {
-  const li = document.createElement("li");
-  li.classList.add("gallery-item");
-
-  const link = document.createElement("a");
-  link.href = image.largeImageURL;
-
-  const img = document.createElement("img");
-  img.src = image.webformatURL;
-  img.alt = image.tags;
-  img.loading = "lazy";
-
-  link.appendChild(img);
-  li.appendChild(link);
-
-  const caption = document.createElement("p");
-  caption.classList.add("caption");
-  const tags = image.tags.split(",").map(tag => tag.trim());
-  caption.textContent = tags.slice(0, 3).join(", ");
-
-  li.appendChild(caption);
-  return li;
-}
-
 export function renderGallery(images) {
-  const fragment = document.createDocumentFragment();
-  images.forEach(image => {
-    fragment.appendChild(createGalleryItem(image));
-  });
-  gallery.appendChild(fragment);
+  const markup = images
+    .map(
+      img => `
+      <li class="photo-card">
+        <a href="${img.largeImageURL}">
+          <img src="${img.webformatURL}" alt="${img.tags}" loading="lazy" />
+        </a>
+        <div class="info">
+          <p><b>Likes:</b> ${img.likes}</p>
+          <p><b>Views:</b> ${img.views}</p>
+          <p><b>Comments:</b> ${img.comments}</p>
+          <p><b>Downloads:</b> ${img.downloads}</p>
+        </div>
+      </li>`
+    )
+    .join('');
+
+  gallery.insertAdjacentHTML('beforeend', markup);
 
   if (!lightbox) {
     lightbox = new SimpleLightbox('.gallery a', {
@@ -67,4 +56,3 @@ export function showLoadMoreBtn() {
 export function hideLoadMoreBtn() {
   loadMoreBtn.hidden = true;
 }
-

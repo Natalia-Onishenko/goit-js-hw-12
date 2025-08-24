@@ -13,9 +13,6 @@ import 'izitoast/dist/css/iziToast.min.css';
 
 const form = document.querySelector('#search-form');
 const loadMoreBtn = document.querySelector('.load-more');
-const loader = document.querySelector('.loader');
-const gallery = document.querySelector('.gallery');
-
 let query = '';
 let page = 1;
 let totalHits = 0;
@@ -61,7 +58,6 @@ async function onSearch(e) {
     totalHits = data.totalHits;
     renderGallery(data.hits);
 
-    
     if (totalHits > 15) {
       showLoadMoreBtn();
     } else {
@@ -71,7 +67,6 @@ async function onSearch(e) {
         position: 'topRight',
       });
     }
-
   } catch (error) {
     iziToast.error({
       title: 'Помилка',
@@ -86,18 +81,16 @@ async function onSearch(e) {
 async function onLoadMore() {
   page += 1;
 
- 
-  loadMoreBtn.hidden = true;
-  loader.textContent = 'Loading my images. Wait, please';
-  loader.hidden = false;
+  hideLoadMoreBtn();
+  showLoader();
 
   try {
     const data = await fetchImages(query, page);
     renderGallery(data.hits);
 
-   
-    if (gallery.firstElementChild) {
-      const { height: cardHeight } = gallery.firstElementChild.getBoundingClientRect();
+    
+    if (document.querySelector('.gallery li')) {
+      const { height: cardHeight } = document.querySelector('.gallery li').getBoundingClientRect();
       window.scrollBy({ top: cardHeight * 2, behavior: 'smooth' });
     }
 
@@ -110,17 +103,16 @@ async function onLoadMore() {
       });
       hideLoadMoreBtn();
     } else {
-      loader.hidden = true;
-      loadMoreBtn.hidden = false;
+      showLoadMoreBtn();
     }
-
   } catch (error) {
     iziToast.error({
       title: 'Помилка',
       message: 'Не вдалося завантажити більше зображень.',
       position: 'topRight',
     });
-    loader.hidden = true;
-    loadMoreBtn.hidden = false;
+    showLoadMoreBtn();
+  } finally {
+    hideLoader();
   }
 }
