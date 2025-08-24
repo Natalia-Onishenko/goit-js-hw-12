@@ -5,15 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Image Search</title>
     <script type="module" crossorigin src="/goit-js-hw-12/index.js"></script>
-    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-D3cdi7O1.js">
-    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-DkczhqSJ.css">
+    <link rel="modulepreload" crossorigin href="/goit-js-hw-12/assets/vendor-5YrzWRhu.js">
+    <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/vendor-CWKLx11g.css">
     <link rel="stylesheet" crossorigin href="/goit-js-hw-12/assets/index-CgzD2U0p.css">
   </head>
   <body>
     <header>
-      <form class="form">
+      <form id="search-form" class="form">
         <input
           type="text"
+          name="searchQuery"
           class="search-input"
           placeholder="Image search..."
           required
@@ -27,7 +28,7 @@
 
       <div class="controls">
         <button class="load-more" hidden>Load More</button>
-        <span class="loader">Loading…</span>
+        <span class="loader" hidden>Loading…</span>
       </div>
     </main>
 
